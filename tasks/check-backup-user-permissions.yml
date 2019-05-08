@@ -1,0 +1,29 @@
+- name: Check if backup user exists all mongo services
+  command: '{{ mongodb_shell.check_user }}'
+  run_once: true
+  register: backupuserquery
+  loop:
+  - '{{ mongoc_port }}'
+  - '{{ mongod_port }}'
+  - '{{ mongos_port }}'
+
+- name: Set user permissions as fact
+  set_fact:
+    backup_user_roles: '{{ item.stdout | from_json | json_query("roles[*]") }}'
+    matching_roles: '{{ item.stdout | from_json | json_query(jq) }}'
+  vars:
+    jq: roles[?contains(role,`backup`) == `true`].role
+  loop: '{{ backupuserquery.results }}'
+  loop_control:
+    label: '{{ item.item }}'
+
+- name: Verify backup user permissions
+  assert:
+    that:
+    - matching_roles == ['backup']
+    success_msg: The backup user has all the necessary permissions to perform backup
+      tasks.
+    fail_msg: >-
+      The backup user does not have the necessary permissions to perform the backup
+      tasks. Try adding it to the built-in backup role in your database.
+      are the current roles for this user: {{ backup_user_roles }}
