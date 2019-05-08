@@ -1,0 +1,5 @@
+mongodb_shell:
+  check_user: mongo --quiet --username {{ mongodb_backup_user }}
+    --password {{ mongodb_backup_pass }}
+    {{ mongodb_host }}:{{ item }}/admin
+    --eval 'rs.slaveOk(); db.getUser("{{ mongodb_backup_user }}");'

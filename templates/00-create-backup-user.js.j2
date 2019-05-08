@@ -1,0 +1,9 @@
+admin = db.getSiblingDB("admin")
+admin.createUser({
+  user: "{{ mongodb_backup_user }}",
+  pwd: "{{ mongodb_backup_pass }}",
+  roles: [{
+    role: "backup",
+    db: "admin"
+  }]
+})
