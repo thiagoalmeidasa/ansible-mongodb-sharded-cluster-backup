@@ -1,10 +1,9 @@
 - name: Check if backup user exists all mongo services
-  command: '{{ mongodb_shell.check_user }}'
+  command: '{{ mongodb_shell.get_user }}'
   run_once: true
   register: backupuserquery
   loop:
   - '{{ mongoc_port }}'
-  - '{{ mongod_port }}'
   - '{{ mongos_port }}'
 
 - name: Set user permissions as fact

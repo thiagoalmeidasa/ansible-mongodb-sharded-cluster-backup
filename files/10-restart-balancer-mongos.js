@@ -1,2 +1,1 @@
-use config
-sh.setBalancerState(true)
+sh.setBalancerState(true);

@@ -1,2 +1,8 @@
-- name: Include check backup user permission tasks
-  include_tasks: check-backup-user-permissions.yml
+# - name: Include check backup user permission tasks
+#   include_tasks: 00-check-backup-user-permissions.yml
+
+# - name: Include stop mongos balancer tasks
+#   include_tasks: 01-stop-mongos-balancer.yml
+
+- name: Include fsynclock secondary replset mongod tasks
+  include_tasks: 02-fsynclock-secondary-replset-each-shard-mongod.yml

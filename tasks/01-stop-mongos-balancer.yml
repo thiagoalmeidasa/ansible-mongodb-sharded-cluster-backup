@@ -1,0 +1,14 @@
+- name: Stop mongos balancers
+  command: '{{ mongodb_shell.stop_mongos_balancer }}'
+  vars:
+    item: '{{ mongos_port }}'
+
+- name: Getting mongos balancer status
+  shell: '{{ mongodb_shell.check_mongos_balancer_status }}'
+  register: mongosbalancerstatus
+  vars:
+    item: '{{ mongos_port }}'
+
+- name: Showing mongos balancer status
+  debug:
+    msg: '{{ mongosbalancerstatus.stdout | from_yaml }}'

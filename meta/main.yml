@@ -1,2 +1,59 @@
----
-# Add your data here
+galaxy_info:
+  role_name: mongodb-sharded-cluster-backup
+  author: Thiago Almeida "thiagoalmeidasa@gmail.com"
+  description: Ansible role to perform backups in a sharded cluster with database
+    dumps
+
+  issue_tracker_url: https://github.com/thiagoalmeidasa/ansible-mongodb-sharded-cluster-backup/issues
+  license: GPLv2
+  platforms:
+  - name: EL
+    versions:
+    - all
+  - name: GenericUNIX
+    versions:
+    - all
+    - any
+  - name: Fedora
+    versions:
+    - all
+  - name: opensuse
+    versions:
+    - all
+  - name: Amazon
+    versions:
+    - all
+  - name: GenericBSD
+    versions:
+    - all
+    - any
+  - name: FreeBSD
+    versions:
+    - all
+  - name: Ubuntu
+    versions:
+    - all
+  - name: SLES
+    versions:
+    - all
+  - name: GenericLinux
+    versions:
+    - all
+    - any
+  - name: Debian
+    versions:
+    - all
+
+  min_ansible_version: 2.6
+
+  galaxy_tags:
+  - mongodb
+  - shards
+  - backup
+
+  required_variables:
+  - mongodb_backup_pass:
+    example: test
+    description: desc
+
+dependencies: []

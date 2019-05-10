@@ -1,5 +1,11 @@
+mongodb_connection: mongo --quiet --username {{ mongodb_backup_user }} --password
+  {{ mongodb_backup_pass }} {{ mongodb_host }}:{{ item }}/admin
+mongodb_connection_without_auth: mongo --quiet {{ item }}:{{ mongod_port }}/admin
+
 mongodb_shell:
-  check_user: mongo --quiet --username {{ mongodb_backup_user }}
-    --password {{ mongodb_backup_pass }}
-    {{ mongodb_host }}:{{ item }}/admin
-    --eval 'rs.slaveOk(); db.getUser("{{ mongodb_backup_user }}");'
+  get_user: "{{ mongodb_connection }} --eval 'rs.slaveOk(); db.getUser(`{{ mongodb_backup_user }}`);'"
+  check_mongos_balancer_status: "{{ mongodb_connection }} --eval 'sh.status()' | grep 'balancer:' -A 3"
+  stop_mongos_balancer: "{{ mongodb_connection }} --eval {{ lookup('file', '01-stop-balancer-mongos.js') }}"
+  start_mongos_balancer: "{{ mongodb_connection }} --eval {{ lookup('file', '10-restart-balancer-mongos.js') }}"
+  check_replset_secondary: "{{ mongodb_connection_without_auth }} --eval 'db.isMaster()[`secondary`]'"
+  lock_secondary_replset: "{{ mongodb_connection }} --eval {{ lookup('file', '02-fsynclock-secondary-replset-mongod.js') }}"
