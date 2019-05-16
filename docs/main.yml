@@ -1,0 +1,10 @@
+github_account: thiagoalmeidasa
+todos: [] # (optional) list of todos to print in your README file
+mandatory_variables:
+- mongodb_backup_pass
+- mongodb_backup_user
+- aws_access_key
+- aws_secret_key
+- aws_region
+- mongodb_backup_s3_bucket
+- mongodb_backup_s3_key_prefix

@@ -1,13 +1,17 @@
+---
 mongoc_backup_dir: /srv/backup/mongoc
-mongoc_locked_secondary_replset: mongoc_host
 mongoc_port: 27019
 
 mongod_backup_dir: /srv/backup/mongod
-mongod_locked_secondary_replset: mongod_host
 mongod_port: 27018
 
 mongos_port: 27017
 
-mongodb_host: mongo
 mongodb_backup_pass: backup_pass
 mongodb_backup_user: backup_user
+
+aws_access_key: someaccesskey
+aws_secret_key: somesecretkey
+aws_region: someregion
+mongodb_backup_s3_bucket: mongodb-bucket
+mongodb_backup_s3_key_prefix: keyprefix

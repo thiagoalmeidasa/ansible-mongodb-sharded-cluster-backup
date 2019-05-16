@@ -1,8 +1,23 @@
-# - name: Include check backup user permission tasks
-#   include_tasks: 00-check-backup-user-permissions.yml
+- name: Include check backup user permission tasks
+  include_tasks: 00-check-backup-user-permissions.yml
 
-# - name: Include stop mongos balancer tasks
-#   include_tasks: 01-stop-mongos-balancer.yml
+- name: Include stop mongos balancer tasks
+  include_tasks: 01-stop-mongos-balancer.yml
 
-- name: Include fsynclock secondary replset mongod tasks
-  include_tasks: 02-fsynclock-secondary-replset-each-shard-mongod.yml
+- name: Include dump data from one secondary replset mongod tasks
+  include_tasks: 02-dump-one-secondary-replset-each-shard-mongod.yml
+
+- name: Include dump data from one secondary replset mongoc tasks
+  include_tasks: 03-dump-one-secondary-replset-each-shard-mongoc.yml
+
+- name: Include restart mongos balancer tasks
+  include_tasks: 04-restart-mongos-balancer.yml
+
+# - name: Include tasks to check all mongo services status
+#   include_tasks: 05-check-all-mongo-service-status.yml
+
+# - name: Include tasks to restore data to local env
+#   include_tasks: 06-restore-data-to-local-env.yml
+
+# - name: Include tasks to validate restored data on local env
+#   include_tasks: 07-validate-restored-data-local-env.yml

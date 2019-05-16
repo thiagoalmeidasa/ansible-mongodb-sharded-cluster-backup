@@ -1,10 +1,18 @@
 - name: Check if backup user exists all mongo services
   command: '{{ mongodb_shell.get_user }}'
-  run_once: true
   register: backupuserquery
-  loop:
-  - '{{ mongoc_port }}'
-  - '{{ mongos_port }}'
+  vars:
+    mongo_host: '{{ item.0 }}'
+    mongo_port: '{{ item.1 }}'
+    mongodb_ports:
+    - '{{ mongoc_port }}'
+    - '{{ mongod_port }}'
+    - '{{ mongos_port }}'
+  loop: '{{ ansible_play_batch|product(mongodb_ports)|list }}'
+  loop_control:
+    label: '{{ item.0 }}'
+  run_once: true
+  no_log: true
 
 - name: Set user permissions as fact
   set_fact:
@@ -15,6 +23,7 @@
   loop: '{{ backupuserquery.results }}'
   loop_control:
     label: '{{ item.item }}'
+  run_once: true
 
 - name: Verify backup user permissions
   assert:
@@ -26,3 +35,4 @@
       The backup user does not have the necessary permissions to perform the backup
       tasks. Try adding it to the built-in backup role in your database.
       are the current roles for this user: {{ backup_user_roles }}
+  run_once: true

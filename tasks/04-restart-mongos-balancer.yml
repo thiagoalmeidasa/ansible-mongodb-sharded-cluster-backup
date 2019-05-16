@@ -1,5 +1,5 @@
-- name: MONGOS | Stop mongos balancers
-  command: '{{ mongodb_shell.stop_mongos_balancer }}'
+- name: MONGOS | Restarting mongos balancers
+  command: '{{ mongodb_shell.start_mongos_balancer }}'
   vars:
     mongo_port: '{{ mongos_port }}'
     mongo_host: '{{ item }}'
@@ -14,8 +14,11 @@
     mongo_host: '{{ item }}'
   loop: '{{ ansible_play_batch }}'
   run_once: true
+  until: mongosbalancerstatus.stdout.find("Currently enabled"':'"  yes") != -1
+  retries: 5
+  delay: 3
 
-- name: MONGOS | Showing mongos balancer status
+- name: MONGOS | Showing mongos balancer status after restart
   debug:
     msg: '{{ item.stdout | from_yaml }}'
   loop: '{{ mongosbalancerstatus.results }}'
