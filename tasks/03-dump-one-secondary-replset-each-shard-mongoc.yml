@@ -1,3 +1,4 @@
+---
 - name: MONGOC | Get replset member status on each shard
   command: '{{ mongodb_shell.check_replset_secondary }}'
   register: replset_secondary_status
@@ -10,7 +11,8 @@
 - name: MONGOC | Set secondary nodes for each shard
   set_fact:
     "{{ ec2_tag_cluster_name | replace('-', '_') }}_conf_secondaries": "{{  replset_secondary_status.results\
-      \ | selectattr('stdout', 'match', 'true') | map (attribute='item') | list }}"
+      \ | selectattr('stdout', 'match', 'true') | map (attribute='item') | list\
+      \ }}"
   run_once: true
 
 - name: MONGOC | Show all secondary nodes on each replset for each shard for each
@@ -74,7 +76,9 @@
     aws_access_key: '{{ aws_access_key }}'
     aws_secret_key: '{{ aws_secret_key }}'
     aws_region: '{{ aws_region }}'
-  when: ansible_host == mongo_host
+  when:
+  - ansible_host == mongo_host
+  - publish_to_s3
 
 - name: MONGOC | Cleaning backup locks and dirs
   file:

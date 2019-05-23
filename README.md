@@ -23,6 +23,7 @@ Basic usage is:
       vars:
         mongodb_backup_pass: backup_pass
         mongodb_backup_user: backup_user
+        publish_to_s3: true
         aws_access_key: someaccesskey
         aws_secret_key: somesecretkey
         aws_region: someregion
