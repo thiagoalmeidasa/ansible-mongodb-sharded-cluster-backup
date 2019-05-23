@@ -64,7 +64,7 @@
     - python27-dateutil.noarch
     - python27-boto3.noarch
     - python27-botocore.noarch
-    state: latest
+    state: present
     update_cache: yes
   when: ansible_host == mongo_host
 
