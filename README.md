@@ -31,6 +31,28 @@ Basic usage is:
         mongodb_backup_s3_key_prefix: keyprefix
 ```
 
+## Mongodb user permissions
+
+This role needs to use a mongodb user in `backup` and `clusterMonitor`
+built in roles. To configure that use this mongoshell command:
+
+```javascript
+admin.createUser({
+  user: "{{ mongodb_backup_user }}",
+  pwd: "{{ mongodb_backup_pass }}",
+  roles: [
+    {
+      role: "backup",
+      db: "admin"
+    },
+    {
+      role: "clusterMonitor",
+      db: "admin"
+    }
+  ]
+});
+```
+
 ## Role Variables
 
 Variables are divided in three types.

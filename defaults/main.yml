@@ -1,4 +1,7 @@
 ---
+# Available modes are: backup or restore
+mode: false
+
 mongoc_backup_dir: /srv/backup/mongoc
 mongoc_port: 27019
 

@@ -1,0 +1,16 @@
+---
+- name: Checking services status
+  shell: '{{ mongodb_shell.check_service_status }}'
+  register: servicesstatus
+  vars:
+    mongo_host: '{{ item.0 }}'
+    mongo_port: '{{ item.1 }}'
+    mongodb_ports:
+    - '{{ mongoc_port }}'
+    - '{{ mongod_port }}'
+    - '{{ mongos_port }}'
+  loop: '{{ ansible_play_batch|product(mongodb_ports)|list }}'
+  loop_control:
+    label: '{{ item.0 }}'
+  run_once: true
+  no_log: true

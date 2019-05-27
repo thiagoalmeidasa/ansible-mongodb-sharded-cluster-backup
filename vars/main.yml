@@ -11,3 +11,4 @@ mongodb_shell:
   lock_secondary_replset: "{{ mongodb_connection }} --eval 'db.fsyncLock();'"
   unlock_secondary_replset: "{{ mongodb_connection }} --eval 'db.fsyncUnlock();'"
   get_lock_status_secondary_replset: "{{ mongodb_connection }} --eval \"{{ lookup('file', '11-get-fsynclock-status.js') }}\""
+  check_service_status: "{{ mongodb_connection }} --eval 'db.serverStatus()' | grep 'process' -A 2"
